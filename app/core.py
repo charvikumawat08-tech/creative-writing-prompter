@@ -232,5 +232,7 @@ def milestone_4():
 
 # --- Milestone 5: Create a CLI interface for users to input text and get suggestions.
 # Hint: Command-line arguments, user input.
-def milestone_5():  # TODO(milestone 5)
-    raise NotImplementedError("TODO(milestone 5)")
+def milestone_5():
+    from app.cli import main
+
+    main()

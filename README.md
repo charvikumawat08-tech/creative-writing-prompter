@@ -22,7 +22,7 @@ Tick these off as you go, and commit after each one.
       Hint: Add-k smoothing formula.
 - [x] **4. Develop a function to generate text by sampling from the model.**
       Hint: Probability distribution sampling.
-- [ ] **5. Create a CLI interface for users to input text and get suggestions.**  
+- [x] **5. Create a CLI interface for users to input text and get suggestions.**
       Hint: Command-line arguments, user input.
 
 ## Run it
@@ -34,11 +34,15 @@ python3.12 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env        # then choose a model; see the comments inside
 python -m app.cli hello
+python -m app.cli suggest "once upon a time" --top-n 5 --k 0.5 --length 20 --seed 42
 pytest
 ```
 
 The bundled sample corpus is in `app/corpus.txt`. The CLI uses it by default, and model commands can also load a
 custom UTF-8 corpus file. Text preprocessing lowercases and normalizes words while preserving internal apostrophes.
+Use `--corpus PATH` to select a custom corpus, `--k` to set positive Add-k smoothing, `--top-n` to choose how many
+suggestions to display, `--length` to append generated words, `--n` to set the n-gram order, and `--seed` for
+reproducible generation. Run `python -m app.cli suggest --help` for the full options.
 
 ## Settings and secrets
 

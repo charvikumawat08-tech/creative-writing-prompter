@@ -95,8 +95,3 @@ def test_milestone_4():
     first_sequence = model.generate_text("the cat", length=5, seed=17)
     assert first_sequence == model.generate_text("the cat", length=5, seed=17)
     assert len(first_sequence.split()) == 7
-
-# Milestone 5: Create a CLI interface for users to input text and get suggestions.
-def test_milestone_5():
-    pass
-
