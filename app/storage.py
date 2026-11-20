@@ -4,6 +4,15 @@ import os
 from pathlib import Path
 
 
+DEFAULT_CORPUS_PATH = Path(__file__).with_name("corpus.txt")
+
+
+def load_corpus(path: str | Path | None = None) -> str:
+    """Load a UTF-8 corpus file, defaulting to the bundled short-story corpus."""
+    corpus_path = Path(path) if path is not None else DEFAULT_CORPUS_PATH
+    return corpus_path.read_text(encoding="utf-8")
+
+
 class Store:
     def __init__(self, path: str | None = None):
         self.path = Path(path or os.environ.get("DATA_PATH", "data/app.json"))

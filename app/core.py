@@ -1,9 +1,26 @@
 """Your code. One stub per milestone; build them in order and keep each one small."""
+import re
+import unicodedata
+
+from app.storage import load_corpus
+
+_TOKEN_PATTERN = re.compile(r"[^\W_]+(?:'[^\W_]+)*", re.UNICODE)
+
+
+def preprocess_text(text: str) -> str:
+    """Normalize text and return its words as a lowercase, space-separated string."""
+    normalized = unicodedata.normalize("NFKC", text).replace("\u2019", "'").lower()
+    return " ".join(_TOKEN_PATTERN.findall(normalized))
+
+
+def tokenize(text: str) -> list[str]:
+    """Normalize text and split it into words, retaining internal apostrophes."""
+    return preprocess_text(text).split()
 
 # --- Milestone 1: Prepare a text corpus of short stories.
 # Hint: Text preprocessing, tokenization.
-def milestone_1():  # TODO(milestone 1)
-    raise NotImplementedError("TODO(milestone 1)")
+def milestone_1():
+    return tokenize(load_corpus())
 
 
 # --- Milestone 2: Implement n-gram counting and maximum-likelihood probabilities.

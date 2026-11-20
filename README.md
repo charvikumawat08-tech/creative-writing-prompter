@@ -14,7 +14,7 @@ This CLI tool helps aspiring writers overcome writer's block by offering context
 
 Tick these off as you go, and commit after each one.
 
-- [ ] **1. Prepare a text corpus of short stories.**  
+- [x] **1. Prepare a text corpus of short stories.**
       Hint: Text preprocessing, tokenization.
 - [ ] **2. Implement n-gram counting and maximum-likelihood probabilities.**  
       Hint: N-gram generation, frequency counting.
@@ -37,8 +37,8 @@ python -m app.cli hello
 pytest
 ```
 
-Your work goes in `app/core.py` (one stub per milestone) and `tests/test_core.py`. The first tests pass already; they
-check the plumbing.
+The bundled sample corpus is in `app/corpus.txt`. The CLI uses it by default, and model commands can also load a
+custom UTF-8 corpus file. Text preprocessing lowercases and normalizes words while preserving internal apostrophes.
 
 ## Settings and secrets
 
