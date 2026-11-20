@@ -73,6 +73,48 @@ def mle_distribution(
     }
 
 
+def add_k_probability(
+    ngram: Sequence[str],
+    ngram_counts: Mapping[tuple[str, ...], int],
+    context_counts: Mapping[tuple[str, ...], int],
+    vocabulary_size: int,
+    k: float = 1.0,
+) -> float:
+    """Return one Add-k conditional probability."""
+    ngram = tuple(ngram)
+    if not ngram:
+        raise ValueError("ngram must contain at least one token")
+    if vocabulary_size < 1:
+        raise ValueError("vocabulary_size must be at least 1")
+    if k < 0:
+        raise ValueError("k must not be negative")
+    context = ngram[:-1]
+    denominator = context_counts.get(context, 0) + k * vocabulary_size
+    if denominator == 0:
+        return 0.0
+    return (ngram_counts.get(ngram, 0) + k) / denominator
+
+
+def add_k_distribution(
+    context: Sequence[str],
+    ngram_counts: Mapping[tuple[str, ...], int],
+    context_counts: Mapping[tuple[str, ...], int],
+    vocabulary: Sequence[str],
+    k: float = 1.0,
+) -> dict[str, float]:
+    """Return Add-k next-token probabilities over the given vocabulary."""
+    vocabulary = tuple(dict.fromkeys(vocabulary))
+    if not vocabulary:
+        raise ValueError("vocabulary must contain at least one token")
+    context = tuple(context)
+    return {
+        word: add_k_probability(
+            context + (word,), ngram_counts, context_counts, len(vocabulary), k
+        )
+        for word in vocabulary
+    }
+
+
 # --- Milestone 1: Prepare a text corpus of short stories.
 # Hint: Text preprocessing, tokenization.
 def milestone_1():
@@ -87,8 +129,12 @@ def milestone_2():
 
 # --- Milestone 3: Add add-k smoothing to handle unseen n-grams.
 # Hint: Add-k smoothing formula.
-def milestone_3():  # TODO(milestone 3)
-    raise NotImplementedError("TODO(milestone 3)")
+def milestone_3():
+    tokens = milestone_1()
+    vocabulary = sorted(set(tokens))
+    return add_k_distribution(
+        tokens[-1:], count_ngrams(tokens, 2), count_contexts(tokens, 2), vocabulary
+    )
 
 
 # --- Milestone 4: Develop a function to generate text by sampling from the model.

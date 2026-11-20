@@ -1,10 +1,13 @@
 """Focused tests for the creative-writing prompt model."""
+import pytest
 
 # Milestone 1: Prepare a text corpus of short stories.
 from app.core import (
     count_contexts,
     count_ngrams,
     generate_ngrams,
+    add_k_distribution,
+    add_k_probability,
     mle_distribution,
     mle_probability,
     preprocess_text,
@@ -59,7 +62,23 @@ def test_milestone_2():
 
 # Milestone 3: Add add-k smoothing to handle unseen n-grams.
 def test_milestone_3():
-    pass
+    tokens = ["a", "b", "a", "b", "c"]
+    ngram_counts = count_ngrams(tokens, 2)
+    context_counts = count_contexts(tokens, 2)
+    vocabulary = ["a", "b", "c"]
+
+    assert add_k_probability(
+        ("a", "c"), ngram_counts, context_counts, len(vocabulary), k=1
+    ) > 0
+    unseen_context_distribution = add_k_distribution(
+        ("unknown",), ngram_counts, context_counts, vocabulary, k=0.5
+    )
+    assert all(probability > 0 for probability in unseen_context_distribution.values())
+    assert sum(unseen_context_distribution.values()) == pytest.approx(1.0)
+    smoothed_distribution = add_k_distribution(
+        ("a",), ngram_counts, context_counts, vocabulary, k=1
+    )
+    assert sum(smoothed_distribution.values()) == pytest.approx(1.0)
 
 # Milestone 4: Develop a function to generate text by sampling from the model.
 def test_milestone_4():
