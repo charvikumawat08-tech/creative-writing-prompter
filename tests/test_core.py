@@ -8,6 +8,7 @@ from app.core import (
     generate_ngrams,
     add_k_distribution,
     add_k_probability,
+    NGramModel,
     mle_distribution,
     mle_probability,
     preprocess_text,
@@ -82,7 +83,18 @@ def test_milestone_3():
 
 # Milestone 4: Develop a function to generate text by sampling from the model.
 def test_milestone_4():
-    pass
+    model = NGramModel(
+        ["the", "cat", "sat", "the", "cat", "slept"], n=3, k=0.5
+    )
+    suggestions = model.suggest_next_words("the", top_n=3)
+    assert suggestions[0][0] == "cat"
+    assert len(suggestions) == 3
+
+    first_sample = model.sample_next_word("an unseen context", seed=17)
+    assert first_sample == model.sample_next_word("an unseen context", seed=17)
+    first_sequence = model.generate_text("the cat", length=5, seed=17)
+    assert first_sequence == model.generate_text("the cat", length=5, seed=17)
+    assert len(first_sequence.split()) == 7
 
 # Milestone 5: Create a CLI interface for users to input text and get suggestions.
 def test_milestone_5():

@@ -20,7 +20,7 @@ Tick these off as you go, and commit after each one.
       Hint: N-gram generation, frequency counting.
 - [x] **3. Add add-k smoothing to handle unseen n-grams.**
       Hint: Add-k smoothing formula.
-- [ ] **4. Develop a function to generate text by sampling from the model.**  
+- [x] **4. Develop a function to generate text by sampling from the model.**
       Hint: Probability distribution sampling.
 - [ ] **5. Create a CLI interface for users to input text and get suggestions.**  
       Hint: Command-line arguments, user input.
