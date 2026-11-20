@@ -16,7 +16,7 @@ Tick these off as you go, and commit after each one.
 
 - [x] **1. Prepare a text corpus of short stories.**
       Hint: Text preprocessing, tokenization.
-- [ ] **2. Implement n-gram counting and maximum-likelihood probabilities.**  
+- [x] **2. Implement n-gram counting and maximum-likelihood probabilities.**
       Hint: N-gram generation, frequency counting.
 - [ ] **3. Add add-k smoothing to handle unseen n-grams.**  
       Hint: Add-k smoothing formula.

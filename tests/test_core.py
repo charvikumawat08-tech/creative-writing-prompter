@@ -1,7 +1,15 @@
 """Focused tests for the creative-writing prompt model."""
 
 # Milestone 1: Prepare a text corpus of short stories.
-from app.core import preprocess_text, tokenize
+from app.core import (
+    count_contexts,
+    count_ngrams,
+    generate_ngrams,
+    mle_distribution,
+    mle_probability,
+    preprocess_text,
+    tokenize,
+)
 from app.storage import load_corpus
 
 
@@ -26,7 +34,28 @@ def test_load_corpus_supports_bundled_and_custom_files(tmp_path):
 
 # Milestone 2: Implement n-gram counting and maximum-likelihood probabilities.
 def test_milestone_2():
-    pass
+    tokens = ["a", "b", "a", "b", "c"]
+    ngram_counts = count_ngrams(tokens, 2)
+    context_counts = count_contexts(tokens, 2)
+
+    assert generate_ngrams(tokens, 2) == [
+        ("a", "b"),
+        ("b", "a"),
+        ("a", "b"),
+        ("b", "c"),
+    ]
+    assert ngram_counts == {
+        ("a", "b"): 2,
+        ("b", "a"): 1,
+        ("b", "c"): 1,
+    }
+    assert context_counts == {("a",): 2, ("b",): 2}
+    assert mle_probability(("a", "b"), ngram_counts, context_counts) == 1.0
+    distribution = mle_distribution(
+        ("b",), ngram_counts, context_counts, ["a", "b", "c"]
+    )
+    assert distribution == {"a": 0.5, "b": 0.0, "c": 0.5}
+    assert sum(distribution.values()) == 1.0
 
 # Milestone 3: Add add-k smoothing to handle unseen n-grams.
 def test_milestone_3():
